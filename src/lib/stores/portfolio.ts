@@ -44,8 +44,8 @@ I thrive in environments where learning is encouraged, coaching is welcomed, and
 				name: 'Cloud Platforms',
 				displayOrder: 2,
 				skills: [
-					{ name: 'Azure', proficiency: 'Advanced', yearsExperience: 4 },
-					{ name: 'AWS', proficiency: 'Familiar', yearsExperience: 3 }
+					{ name: 'Azure', proficiency: 'Advanced', yearsExperience: 3 },
+					{ name: 'AWS', proficiency: 'Advanced', yearsExperience: 4 }
 				]
 			},
 			{
