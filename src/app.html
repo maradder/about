@@ -3,6 +3,35 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			// Prevent FOUC by applying theme before page renders
+			(function () {
+				const THEME_COOKIE_NAME = 'theme-preference';
+
+				function getSystemTheme() {
+					return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+
+				function getStoredTheme() {
+					const cookieValue = document.cookie
+						.split('; ')
+						.find((row) => row.startsWith(THEME_COOKIE_NAME + '='))
+						?.split('=')[1];
+
+					if (cookieValue && ['light', 'dark', 'system'].includes(cookieValue)) {
+						return cookieValue;
+					}
+					return 'system';
+				}
+
+				const storedTheme = getStoredTheme();
+				const resolvedTheme = storedTheme === 'system' ? getSystemTheme() : storedTheme;
+
+				if (resolvedTheme === 'dark') {
+					document.documentElement.classList.add('dark');
+				}
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

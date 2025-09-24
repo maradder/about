@@ -1,38 +1,65 @@
-# sv
+# Marcus Radder - Portfolio Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern, responsive portfolio website built with SvelteKit showcasing my experience as a Systems Architect and Software Engineer.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- ⚡ **Modern Stack**: SvelteKit with TypeScript and Tailwind CSS v4
+- 🎨 **Professional Design**: Clean, accessible interface with dark mode support
+- 📱 **Responsive**: Optimized for all devices and screen sizes
+- 🔧 **Interactive Components**: Career timeline, project carousel, skills visualization
+- 🧪 **Comprehensive Testing**: Vitest for unit tests, Playwright for E2E
+- 📖 **Documentation**: Complete Storybook component library
+- ♿ **Accessibility**: WCAG compliant with proper ARIA labels and keyboard navigation
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **Framework**: SvelteKit with TypeScript
+- **Styling**: Tailwind CSS v4 with forms and typography plugins
+- **Testing**: Vitest (browser environment) + Playwright for E2E
+- **Documentation**: Storybook with accessibility and docs addons
+- **Content**: MDSvex for Markdown components
+- **Linting**: ESLint + Prettier with Svelte support
 
-## Developing
+## Development
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+# Install dependencies
+npm install
 
-```sh
+# Start development server
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# Run tests
+npm run test
+
+# Launch Storybook
+npm run storybook
 ```
 
 ## Building
 
-To create a production version of your app:
-
-```sh
+```bash
+# Create production build
 npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can preview the production build with `npm run preview`.
+## Architecture
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- `src/routes/` - SvelteKit routes and pages
+- `src/lib/components/` - Reusable components
+- `src/lib/stores/` - Svelte stores for state management
+- `src/lib/types/` - TypeScript type definitions
+- `src/stories/` - Storybook component documentation
+- `e2e/` - Playwright end-to-end tests
+
+## Professional Background
+
+Systems Architect with leadership experience building scalable cloud solutions. Specializing in Azure, Python, TypeScript, and technical team leadership.
+
+---
+
+Built with modern web technologies and a focus on performance, accessibility, and user experience.
