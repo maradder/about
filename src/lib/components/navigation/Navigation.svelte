@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { portfolioDataWithCurrentJob } from '$lib/stores/portfolio';
+	import { assets } from '$app/paths';
 	import type { NavigationProps } from '$lib/types/portfolio';
 	import ThemeToggle from '$lib/components/ui/ThemeToggle.svelte';
 
@@ -56,7 +57,7 @@
 						aria-label="View larger profile picture"
 						data-testid="profile-image-button"
 					>
-						<img src="/images/profile.png" alt="Marcus Radder" class="h-full w-full object-cover" />
+						<img src="{assets}/images/profile.png" alt="Marcus Radder" class="h-full w-full object-cover" />
 					</button>
 					<a
 						href="#hero"
@@ -183,7 +184,7 @@
 			<!-- Large profile image -->
 			<div class="overflow-hidden rounded-lg bg-white shadow-2xl dark:bg-gray-800">
 				<img
-					src="/images/profile.png"
+					src="{assets}/images/profile.png"
 					alt="Marcus Radder"
 					class="h-auto w-full max-w-md object-cover"
 					data-testid="profile-modal-image"

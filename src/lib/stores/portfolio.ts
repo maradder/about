@@ -44,8 +44,8 @@ I thrive in environments where learning is encouraged, coaching is welcomed, and
 				name: 'Cloud Platforms',
 				displayOrder: 2,
 				skills: [
-					{ name: 'Azure', proficiency: 'Expert', yearsExperience: 4 },
-					{ name: 'AWS', proficiency: 'Advanced', yearsExperience: 3 }
+					{ name: 'Azure', proficiency: 'Advanced', yearsExperience: 4 },
+					{ name: 'AWS', proficiency: 'Familiar', yearsExperience: 3 }
 				]
 			},
 			{
@@ -54,7 +54,7 @@ I thrive in environments where learning is encouraged, coaching is welcomed, and
 				skills: [
 					{ name: 'Docker', proficiency: 'Expert', yearsExperience: 5 },
 					{ name: 'GitLab CI/CD', proficiency: 'Advanced', yearsExperience: 4 },
-					{ name: 'PostgreSQL', proficiency: 'Expert', yearsExperience: 6 },
+					{ name: 'PostgreSQL', proficiency: 'Advanced', yearsExperience: 6 },
 					{ name: 'MongoDB', proficiency: 'Advanced', yearsExperience: 4 },
 					{ name: 'Tailwind CSS', proficiency: 'Expert', yearsExperience: 3 },
 					{ name: 'Figma', proficiency: 'Advanced', yearsExperience: 3 }
