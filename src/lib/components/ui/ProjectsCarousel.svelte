@@ -325,7 +325,7 @@
 				{#each extendedProjects as project}
 					<div
 						class="flex-shrink-0 rounded-lg border border-gray-100 bg-white shadow-md transition-all duration-300 hover:border-gray-200 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:shadow-gray-900/20 dark:hover:border-gray-700 dark:hover:shadow-gray-900/30"
-						style="width: {cardWidth}px; height: 420px;"
+						style="width: {cardWidth}px; height: {cardWidth < 400 ? '460px' : '420px'};"
 						role="listitem"
 						data-testid="project-card"
 					>

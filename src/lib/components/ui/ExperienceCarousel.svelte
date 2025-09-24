@@ -302,30 +302,30 @@
 			>
 				{#each extendedPositions as position}
 					<div
-						class="flex-shrink-0 rounded-lg border border-gray-100 bg-white p-6 shadow-md transition-all duration-300 hover:border-gray-200 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 dark:shadow-gray-900/20 dark:hover:border-gray-600 dark:hover:shadow-gray-900/30"
+						class="flex-shrink-0 rounded-lg border border-gray-100 bg-white p-4 shadow-md transition-all duration-300 hover:border-gray-200 hover:shadow-xl sm:p-6 dark:border-gray-700 dark:bg-gray-800 dark:shadow-gray-900/20 dark:hover:border-gray-600 dark:hover:shadow-gray-900/30"
 						style="width: {cardWidth}px;"
 						data-testid="experience-card"
 					>
-						<div class="mb-4 flex flex-wrap items-start justify-between">
+						<div class="mb-3 flex flex-wrap items-start justify-between sm:mb-4">
 							<div>
 								<h3
-									class="text-xl font-semibold text-gray-900 dark:text-white"
+									class="text-lg font-semibold text-gray-900 sm:text-xl dark:text-white"
 									data-testid="position-title"
 								>
 									{position.title}
 								</h3>
 								<p
-									class="text-primary-600 text-lg dark:text-gray-100"
+									class="text-primary-600 text-base sm:text-lg dark:text-gray-100"
 									data-testid="position-company"
 								>
 									{position.company}
 								</p>
-								<p class="text-gray-600 dark:text-gray-300" data-testid="position-location">
+								<p class="text-sm text-gray-600 sm:text-base dark:text-gray-300" data-testid="position-location">
 									{position.location}
 								</p>
 							</div>
 							<span
-								class="rounded-full px-3 py-1 text-sm font-medium {position.isCurrent
+								class="rounded-full px-2 py-1 text-xs font-medium sm:px-3 sm:text-sm {position.isCurrent
 									? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
 									: 'bg-white text-gray-500 dark:bg-gray-700 dark:text-gray-400'}"
 								data-testid="position-dates"
@@ -334,11 +334,11 @@
 							</span>
 						</div>
 
-						<ul class="mb-4 space-y-2">
+						<ul class="mb-3 space-y-2 sm:mb-4">
 							{#each position.achievements as achievement}
 								<li class="flex items-start space-x-2" data-testid="position-achievement">
 									<div class="bg-primary-500 mt-2 h-2 w-2 flex-shrink-0 rounded-full"></div>
-									<span class="text-gray-600 dark:text-gray-300">{achievement}</span>
+									<span class="text-sm text-gray-600 sm:text-base dark:text-gray-300">{achievement}</span>
 								</li>
 							{/each}
 						</ul>

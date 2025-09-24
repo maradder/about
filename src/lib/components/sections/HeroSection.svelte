@@ -22,7 +22,7 @@
 	{/if}
 
 	<div class="relative z-10 mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
-		<div class="space-y-8">
+		<div class="space-y-6 sm:space-y-8">
 			{#if profileImage}
 				<div class="animate-fade-in flex justify-center">
 					<img
@@ -37,7 +37,7 @@
 			<div class="animate-slide-in-up space-y-4">
 				<h1
 					id="hero-name"
-					class="text-4xl font-bold text-gray-900 sm:text-6xl lg:text-7xl dark:text-white {backgroundImage
+					class="text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl dark:text-white {backgroundImage
 						? 'text-white'
 						: ''}"
 					data-testid="hero-name"
@@ -46,7 +46,7 @@
 				</h1>
 
 				<h2
-					class="text-xl font-medium text-gray-700 sm:text-2xl lg:text-3xl dark:text-gray-300 {backgroundImage
+					class="text-lg font-medium text-gray-700 sm:text-xl md:text-2xl lg:text-3xl dark:text-gray-300 {backgroundImage
 						? 'text-gray-200'
 						: ''}"
 					data-testid="hero-title"
@@ -55,7 +55,7 @@
 				</h2>
 
 				<h3
-					class="text-primary-600 text-lg font-semibold sm:text-xl lg:text-2xl dark:text-white {backgroundImage
+					class="text-primary-600 text-base font-semibold sm:text-lg md:text-xl lg:text-2xl dark:text-white {backgroundImage
 						? 'text-primary-300'
 						: ''}"
 					data-testid="hero-subtitle"
@@ -65,7 +65,7 @@
 
 				{#if tagline}
 					<p
-						class="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 sm:text-lg dark:text-gray-400 {backgroundImage
+						class="mx-auto max-w-2xl text-sm leading-relaxed text-gray-600 sm:text-base md:text-lg dark:text-gray-400 {backgroundImage
 							? 'text-gray-300'
 							: ''}"
 						data-testid="hero-tagline"
@@ -76,11 +76,11 @@
 			</div>
 
 			<!-- Career Journey Visualization -->
-			<div class="animate-slide-in-up pt-8" style="animation-delay: 0.4s;">
+			<div class="animate-slide-in-up pt-4 sm:pt-6 md:pt-8 pb-6 sm:pb-8 md:pb-10" style="animation-delay: 0.4s;">
 				<CareerJourney />
 			</div>
 
-			<div class="animate-slide-in-up pt-6" style="animation-delay: 0.6s;">
+			<div class="animate-slide-in-up pt-4 sm:pt-6" style="animation-delay: 0.6s;">
 				<AnimatedCTAButton href={ctaLink} text={ctaText} variant="terminal" />
 			</div>
 		</div>

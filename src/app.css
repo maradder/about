@@ -34,3 +34,13 @@
 .backdrop-blur-sm {
 	transition: background-color var(--theme-transition-duration) var(--theme-transition-timing);
 }
+
+/* Set body background to match theme */
+body {
+	background-color: white;
+	transition: background-color var(--theme-transition-duration) var(--theme-transition-timing);
+}
+
+body:where(.dark, .dark *) {
+	background-color: #111827; /* gray-900 */
+}

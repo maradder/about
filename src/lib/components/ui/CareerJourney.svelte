@@ -8,13 +8,22 @@
 	let mousePosition = $state({ x: 0, y: 0 });
 	let hoverTimeout: ReturnType<typeof setTimeout> | null = $state(null);
 	let showPreview = $state(false);
+	let clickedJob = $state<string | null>(null);
+	let isMobile = $state(false);
+	let refreshKey = $state(0); // Force reactivity on resize
+	let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+	let isTransitioning = $state(false); // Only fade during resize transitions
+	let isLoading = $state(true); // Loading state for spinner
 
 	// Get portfolio data reactively
 	let data = $derived($portfolioDataWithCurrentJob);
 
 	// Convert experience data to milestones
+	// Include refreshKey to force recalculation on resize
 	let milestones = $derived(
 		(() => {
+			// Use refreshKey to trigger recalculation (even though not directly used)
+			refreshKey;
 			const positions = data.experience.positions;
 
 			// Sort positions chronologically by start date
@@ -27,9 +36,9 @@
 			// Calculate positioning
 			const baseY = [40, 70, 70, 40, 20]; // Pattern: high, low, low, high, highest
 
-			// Responsive horizontal spacing calculation
-			const totalWidth = 900; // Increased SVG width for more spacing
-			const padding = 60; // Padding on each side
+			// Use current isMobile state for consistent calculations
+			const totalWidth = isMobile ? 700 : 900;
+			const padding = isMobile ? 50 : 60;
 			const availableWidth = totalWidth - padding * 2;
 			const spacingX =
 				sortedPositions.length > 1 ? availableWidth / (sortedPositions.length - 1) : 0;
@@ -100,6 +109,24 @@
 		showPreview = false;
 	}
 
+	function handleClick(milestone: any, event: Event) {
+		if (isMobile) {
+			event.preventDefault();
+			event.stopPropagation(); // Prevent event from bubbling up
+			clickedJob = clickedJob === milestone.id ? null : milestone.id;
+		}
+	}
+
+	function handleKeydown(milestone: any, event: KeyboardEvent) {
+		if (isMobile && (event.key === 'Enter' || event.key === ' ')) {
+			event.preventDefault();
+			clickedJob = clickedJob === milestone.id ? null : milestone.id;
+		} else if (event.key === 'Escape') {
+			// Allow escape key to close on any device
+			clickedJob = null;
+		}
+	}
+
 	function handleMouseMove(event: MouseEvent) {
 		if (hoveredJob) {
 			updateMousePosition(event);
@@ -115,15 +142,89 @@
 
 	onMount(() => {
 		mounted = true;
+
+		// Show spinner initially, then reveal content after brief delay
+		const loadingTimer = setTimeout(() => {
+			isLoading = false;
+		}, 800); // 800ms loading time (300ms + 500ms extension)
+
+		// Check if mobile on mount and listen for resize
+		const handleResize = () => {
+			// Clear existing timeout
+			if (resizeTimeout) {
+				clearTimeout(resizeTimeout);
+			}
+
+			// Debounce resize handling to prevent excessive recalculations
+			resizeTimeout = setTimeout(() => {
+				const wasMobile = isMobile;
+				isMobile = window.innerWidth < 768;
+
+				// Force refresh of milestones when crossing mobile/desktop breakpoint
+				if (wasMobile !== isMobile) {
+					refreshKey = refreshKey + 1;
+					// Close any open cards when switching between mobile/desktop
+					clickedJob = null;
+					hoveredJob = null;
+					showPreview = false;
+					// Show loading during layout recalculation
+					isLoading = true;
+					setTimeout(() => {
+						isLoading = false;
+					}, 200);
+				}
+				resizeTimeout = null;
+			}, 150); // 150ms debounce
+		};
+		handleResize();
+		window.addEventListener('resize', handleResize);
+
+		// Add click-outside listener for mobile
+		const handleClickOutside = (event: MouseEvent) => {
+			if (isMobile && clickedJob) {
+				// Check if click is outside the career journey component
+				const careerJourneyElement = document.querySelector('[data-testid="career-journey"]');
+				if (careerJourneyElement && !careerJourneyElement.contains(event.target as Node)) {
+					clickedJob = null;
+				}
+			}
+		};
+
+		document.addEventListener('click', handleClickOutside);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+			document.removeEventListener('click', handleClickOutside);
+			// Clear any pending resize timeout
+			if (resizeTimeout) {
+				clearTimeout(resizeTimeout);
+			}
+			// Clear loading timer
+			clearTimeout(loadingTimer);
+		};
 	});
 </script>
 
 {#if mounted}
 	<div class="relative mx-auto mb-8 w-full max-w-4xl" data-testid="career-journey">
+		{#if isLoading}
+			<!-- Loading Spinner -->
+			<div class="flex h-20 items-center justify-center sm:h-24 md:h-28">
+				<div class="flex items-center space-x-2">
+					<!-- Spinning circle -->
+					<div class="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-green-600 dark:border-gray-600 dark:border-t-green-400"></div>
+					<span class="text-sm text-gray-600 dark:text-gray-400">Loading career timeline...</span>
+				</div>
+			</div>
+		{:else}
+			<!-- Career Journey Content -->
+			<div
+				class="transition-opacity duration-200 ease-out {isTransitioning ? 'opacity-50' : 'opacity-100'}"
+			>
 		<!-- SVG Container -->
 		<svg
-			viewBox="0 0 900 100"
-			class="h-20 w-full sm:h-24 md:h-28"
+			viewBox="0 0 {isMobile ? '700' : '900'} 100"
+			class="h-12 w-full sm:h-20 md:h-24 lg:h-28"
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			<!-- Background grid pattern -->
@@ -195,12 +296,7 @@
 						stroke-width="2"
 						opacity="1"
 						filter="drop-shadow(0 0 8px #10b981)"
-						class="cursor-pointer transition-all duration-200 hover:brightness-110"
-						role="button"
-						tabindex="0"
-						onmouseenter={(e) => handleMouseEnter(milestone, e)}
-						onmouseleave={handleMouseLeave}
-						onmousemove={handleMouseMove}
+						class="pointer-events-none"
 					/>
 
 					<!-- Checkmark -->
@@ -214,6 +310,22 @@
 						stroke-linejoin="round"
 						class="pointer-events-none"
 					/>
+
+					<!-- Larger invisible clickable area for completed position -->
+					<circle
+						cx={milestone.x}
+						cy={milestone.y}
+						r="30"
+						fill="transparent"
+						class="cursor-pointer transition-all duration-200 hover:brightness-110"
+						role="button"
+						tabindex="0"
+						onmouseenter={(e) => !isMobile && handleMouseEnter(milestone, e)}
+						onmouseleave={() => !isMobile && handleMouseLeave()}
+						onmousemove={(e) => !isMobile && handleMouseMove(e)}
+						onclick={(e) => handleClick(milestone, e)}
+						onkeydown={(e) => handleKeydown(milestone, e)}
+					/>
 				{:else if milestone.current}
 					<!-- Current position - outlined circle -->
 					<circle
@@ -225,12 +337,7 @@
 						stroke-width="3"
 						opacity="1"
 						filter="drop-shadow(0 0 12px #10b981)"
-						class="cursor-pointer transition-all duration-200 hover:brightness-110"
-						role="button"
-						tabindex="0"
-						onmouseenter={(e) => handleMouseEnter(milestone, e)}
-						onmouseleave={handleMouseLeave}
-						onmousemove={handleMouseMove}
+						class="pointer-events-none"
 					/>
 
 					<!-- Inner pulse ring for current position -->
@@ -244,25 +351,44 @@
 						opacity="0.6"
 						class="pointer-events-none"
 					/>
+
+					<!-- Larger invisible clickable area for current position -->
+					<circle
+						cx={milestone.x}
+						cy={milestone.y}
+						r="30"
+						fill="transparent"
+						class="cursor-pointer transition-all duration-200 hover:brightness-110"
+						role="button"
+						tabindex="0"
+						onmouseenter={(e) => !isMobile && handleMouseEnter(milestone, e)}
+						onmouseleave={() => !isMobile && handleMouseLeave()}
+						onmousemove={(e) => !isMobile && handleMouseMove(e)}
+						onclick={(e) => handleClick(milestone, e)}
+						onkeydown={(e) => handleKeydown(milestone, e)}
+					/>
 				{/if}
 
 				<!-- Year labels -->
-				<text
-					x={milestone.x}
-					y={milestone.y - 32}
-					text-anchor="middle"
-					fill="#374151"
-					font-size="14"
-					font-family="monospace"
-					class="dark:fill-gray-300"
-				>
-					{milestone.year}
-				</text>
+				{#if !isMobile}
+					<text
+						x={milestone.x}
+						y={milestone.y - 32}
+						text-anchor="middle"
+						fill="#374151"
+						font-size="14"
+						font-family="monospace"
+						class="dark:fill-gray-300"
+					>
+						{milestone.year}
+					</text>
+				{/if}
 			{/each}
 		</svg>
 
-		<!-- Position labels below - aligned with circles -->
-		<div class="relative mt-6 h-20">
+		<!-- Position labels below - only show on desktop -->
+		{#if !isMobile}
+			<div class="relative mt-6 h-20">
 			{#each milestones as milestone}
 				{@const svgWidth = 900}
 				{@const leftPercentage = (milestone.x / svgWidth) * 100}
@@ -276,11 +402,11 @@
 					onmousemove={handleMouseMove}
 				>
 					<div
-						class="text-xs font-semibold text-gray-900 transition-colors duration-200 hover:text-green-600 dark:text-white dark:hover:text-green-400"
+						class="text-xs font-semibold leading-tight text-gray-900 transition-colors duration-200 hover:text-green-600 dark:text-white dark:hover:text-green-400"
 					>
 						{milestone.title}
 					</div>
-					<div class="font-mono text-xs text-gray-600 dark:text-gray-400">
+					<div class="font-mono text-xs leading-tight text-gray-600 dark:text-gray-400">
 						{milestone.company}
 					</div>
 					<div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -288,19 +414,38 @@
 					</div>
 				</div>
 			{/each}
-		</div>
+			</div>
+		{/if}
 
 		<!-- Job Preview Cards -->
 		{#each milestones as milestone}
-			{#if hoveredJob === milestone.id && milestone.position && showPreview}
-				<JobPreviewCard
-					position={milestone.position}
-					x={mousePosition.x}
-					y={mousePosition.y}
-					visible={true}
-				/>
+			{#if (hoveredJob === milestone.id && milestone.position && showPreview && !isMobile) || (clickedJob === milestone.id && milestone.position && isMobile)}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div
+					onclick={(e) => e.stopPropagation()}
+					data-testid="job-preview-wrapper"
+				>
+					<JobPreviewCard
+						position={milestone.position}
+						x={isMobile ? (typeof window !== 'undefined' ? window.innerWidth / 2 : 200) : mousePosition.x}
+						y={isMobile ? 150 : mousePosition.y}
+						visible={true}
+					/>
+				</div>
 			{/if}
 		{/each}
+
+		<!-- Mobile instruction text -->
+		{#if isMobile}
+			<div class="mt-2 text-center">
+				<p class="text-xs text-gray-500 dark:text-gray-400">
+					Tap circles to view position details • Tap outside to close
+				</p>
+			</div>
+		{/if}
+			</div>
+		{/if}
 	</div>
 {/if}
 

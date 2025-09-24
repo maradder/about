@@ -87,30 +87,30 @@
 		aria-labelledby="about-heading"
 	>
 		<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-			<div class="mb-16 text-center">
+			<div class="mb-8 text-center sm:mb-12 lg:mb-16">
 				<h2
 					id="about-heading"
-					class="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl dark:text-white"
+					class="mb-4 text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl dark:text-white"
 				>
 					{data.about.heading}
 				</h2>
 			</div>
 
-			<div class="mx-auto prose prose-lg text-center" data-testid="about-narrative">
+			<div class="mx-auto max-w-3xl text-center" data-testid="about-narrative">
 				{#each data.about.narrative.split('\n\n') as paragraph}
-					<p class="mb-6 leading-relaxed text-gray-600 dark:text-gray-300">{@html paragraph}</p>
+					<p class="mb-4 text-sm leading-relaxed text-gray-600 sm:mb-6 sm:text-base lg:text-lg dark:text-gray-300">{@html paragraph}</p>
 				{/each}
 			</div>
 
-			<div class="mt-12" data-testid="about-highlights">
-				<h3 class="mb-8 text-center text-xl font-semibold text-gray-900 dark:text-white">
+			<div class="mt-8 sm:mt-12" data-testid="about-highlights">
+				<h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:mb-8 sm:text-xl dark:text-white">
 					Key Highlights
 				</h3>
 				<div class="mx-auto max-w-3xl">
-					<div class="grid gap-6 md:grid-cols-2">
+					<div class="grid gap-4 sm:gap-6 md:grid-cols-2">
 						{#each data.about.highlights as highlight}
 							<div
-								class="flex flex-col items-center space-y-2 text-center"
+								class="flex flex-col items-center space-y-2 text-center p-2"
 								data-testid="about-highlight-item"
 							>
 								<div
@@ -128,7 +128,7 @@
 										/>
 									</svg>
 								</div>
-								<p class="leading-relaxed text-gray-600 dark:text-gray-300">{highlight}</p>
+								<p class="text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-300">{highlight}</p>
 							</div>
 						{/each}
 					</div>
@@ -148,14 +148,14 @@
 		aria-labelledby="experience-heading"
 	>
 		<div class="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-			<div class="mb-16 text-center">
+			<div class="mb-8 text-center sm:mb-12 lg:mb-16">
 				<h2
 					id="experience-heading"
-					class="mb-4 text-3xl font-bold text-gray-900 sm:text-4xl dark:text-white"
+					class="mb-4 text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl dark:text-white"
 				>
 					{data.experience.heading}
 				</h2>
-				<p class="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+				<p class="mx-auto max-w-2xl text-sm text-gray-600 sm:text-base lg:text-lg dark:text-gray-300">
 					Swipe or drag to explore my professional journey
 				</p>
 			</div>

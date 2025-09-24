@@ -6,25 +6,14 @@ test.describe('Contact Section Functionality', () => {
 		await page.locator('[data-testid="nav-contact"]').click();
 	});
 
-	test('displays email address as clickable mailto link', async ({ page }) => {
+	test('displays contact section without email/phone info', async ({ page }) => {
+		// This portfolio only uses social links for contact
 		const emailLink = page.locator('[data-testid="contact-email"]');
-		await expect(emailLink).toBeVisible();
-		await expect(emailLink).toContainText('marcusradder@gmail.com');
-
-		const href = await emailLink.getAttribute('href');
-		expect(href).toBe('mailto:marcusradder@gmail.com');
-	});
-
-	test('displays phone number with click-to-call functionality', async ({ page }) => {
 		const phoneLink = page.locator('[data-testid="contact-phone"]');
 
-		if ((await phoneLink.count()) > 0) {
-			await expect(phoneLink).toBeVisible();
-			await expect(phoneLink).toContainText('(360) 746-1255');
-
-			const href = await phoneLink.getAttribute('href');
-			expect(href).toBe('tel:+13607461255');
-		}
+		// Email and phone should not be present in this portfolio
+		expect(await emailLink.count()).toBe(0);
+		expect(await phoneLink.count()).toBe(0);
 	});
 
 	test('provides working LinkedIn profile link', async ({ page }) => {
