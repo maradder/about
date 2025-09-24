@@ -243,27 +243,6 @@ I thrive in environments where learning is encouraged, coaching is welcomed, and
 				demoUrl: '' // Enterprise application
 			},
 			{
-				name: 'Multi-Cap Multicast Tunnel',
-				description: 'High-performance encrypted multicast forwarding system with TLS 1.3',
-				longDescription:
-					'A sophisticated network infrastructure tool that forwards multicast traffic over encrypted TCP tunnels using TLS 1.3 with Perfect Forward Secrecy. Achieves 1000+ packets/second throughput with <5ms additional latency. Features comprehensive Docker deployment, systemd integration, and certificate-based authentication.',
-				technologies: ['Python', 'TLS 1.3', 'UDP Multicast', 'TCP', 'Docker', 'systemd', 'pytest'],
-				features: [
-					'TLS 1.3 encryption',
-					'High performance (1000+ pps)',
-					'Certificate authentication',
-					'Docker deployment',
-					'Systemd integration',
-					'Comprehensive documentation'
-				],
-				status: 'Live',
-				startDate: '2023-06-01',
-				endDate: '2024-03-01',
-				images: [],
-				githubUrl: '',
-				demoUrl: ''
-			},
-			{
 				name: 'Image Mapper Service',
 				description:
 					'Comprehensive image matching and comparison service with multiple detection methods',
@@ -310,27 +289,6 @@ I thrive in environments where learning is encouraged, coaching is welcomed, and
 				status: 'In Development',
 				startDate: '2024-09-01',
 				endDate: 'Ongoing',
-				images: [],
-				githubUrl: '',
-				demoUrl: ''
-			},
-			{
-				name: 'Email Test Service',
-				description: 'Multi-protocol email testing server for development workflows',
-				longDescription:
-					'A comprehensive email testing solution supporting SMTP, IMAP, and HTTP interfaces with webhook integration and real-time email management. Features thread-safe storage, web interface, and extensive diagnostic tools for development and testing environments.',
-				technologies: ['Python', 'Flask', 'SMTP', 'IMAP', 'Docker'],
-				features: [
-					'Multi-protocol support',
-					'Webhook integration',
-					'Web interface',
-					'Thread-safe storage',
-					'Development tools',
-					'Docker deployment'
-				],
-				status: 'Live',
-				startDate: '2023-07-01',
-				endDate: '2024-02-01',
 				images: [],
 				githubUrl: '',
 				demoUrl: ''
